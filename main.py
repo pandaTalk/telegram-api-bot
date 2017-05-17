@@ -16,7 +16,7 @@ def request_hsi():
     value = parsedjson["indexInfos"][0]["index"]
     return value
 
-def sendMessage(char_id, message):
+def sendMessage(chat_id, message):
     payload = {"chat_id": chat_id, "text": message}
     requests.post(
         'https://api.telegram.org/bot394851849:AAGqhMqnurc6QwIz759hDwig8O-_Uu0ACYg/sendMessage',
