@@ -1,12 +1,12 @@
-import requests
 import json
+import requests
 
 
 def request_USDT_BTC():
     r = requests.get('http://poloniex.com/public?command=returnTicker')
     parsedjson = json.loads(r.text)
     value = parsedjson["USDT_BTC"]["last"]
-    return value
+    return str(value)
 
 
 def request_hsi():
@@ -14,7 +14,7 @@ def request_hsi():
         'http://finance.now.com/api/getAfeQuote.php?item=allindex')
     parsedjson = json.loads(r.text)
     value = parsedjson["indexInfos"][0]["index"]
-    return value
+    return str(value)
 
 def sendMessage(chat_id, message):
     payload = {"chat_id": chat_id, "text": message}
@@ -39,11 +39,11 @@ def main(event, context):
                     elif  "/gethsi" in command:
                         message = request_hsi()
                     elif "/getall" in command:
-                        message = "BTC: " + request_USDT_BTC() + " HSI: " + request_hsi()
+                        message = "BTC: " + request_USDT_BTC()
+                        message += "\nHSI: " + request_hsi()
 
                     if message != "":
                         sendMessage(chat_id, message)
 
-    returnvalue = ""
     res = {"statusCode": 200, "headers": {}, "body": event["body"]}
     return res

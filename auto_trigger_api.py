@@ -11,8 +11,8 @@ def lambda_handler(event, context):
     parsedjson = json.loads(r.text)
     utc_now = datetime.datetime.utcnow()
     local_time_delta = datetime.timedelta(hours=8)
-    local_now = now + local_time_delta
-    message = "Time: " + local_now.strftime() + "\n"
+    local_now = utc_now + local_time_delta
+    message = "Time: " + local_now.strftime("%Y-%m-%d %H:%M:%S") + "\n"
     message += "Last Price: " + parsedjson["USDT_BTC"]["last"]
     payload = {"chat_id": CHAT_ID, "text": message}
     requests.post(
