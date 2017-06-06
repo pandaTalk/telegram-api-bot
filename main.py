@@ -2,10 +2,24 @@ import json
 import requests
 from bs4 import BeautifulSoup as bs
 
+poloniex_json = ""
+
+def request_POLONIEX():
+    if(poloniex_json == "")
+        r = requests.get('http://poloniex.com/public?command=returnTicker')
+        poloniex_json = json.loads(r.text)
+    return poloniex_json;
+
 def request_USDT_BTC():
-    r = requests.get('http://poloniex.com/public?command=returnTicker')
-    parsedjson = json.loads(r.text)
-    value = parsedjson["USDT_BTC"]["last"]
+    # r = requests.get('http://poloniex.com/public?command=returnTicker')
+    # parsedjson = json.loads(r.text)    
+    value = poloniex_json["USDT_BTC"]["last"]
+    return str(value)
+
+def request_USDT_ETH():
+    # r = requests.get('http://poloniex.com/public?command=returnTicker')
+    # parsedjson = json.loads(r.text)
+    value = poloniex_json["USDT_ETH"]["last"]
     return str(value)
 
 
@@ -50,7 +64,11 @@ def main(event, context):
                     length = input_json["entities"][0]["length"]
                     message = ""
                     if "/getbtc" in command:
+                        request_POLONIEX()
                         message = request_USDT_BTC()
+                    if "/geteth" in command:
+                        request_POLONIEX()
+                        message = request_USDT_ETH()
                     elif  "/gethsi" in command:
                         message = request_hsi()
                     elif "/getall" in command:
